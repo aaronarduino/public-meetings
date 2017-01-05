@@ -1,0 +1,44 @@
+<h2>Listing meetings</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Subtype</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Location</th>
+      <th>Hour</th>
+      <th>Minute</th>
+      <th>Duration</th>
+      <th>Email</th>
+      <th>Agenda</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for meeting <- @meetings do %>
+    <tr>
+      <td><%= meeting.type %></td>
+      <td><%= meeting.subtype %></td>
+      <td><%= meeting.title %></td>
+      <td><%= meeting.description %></td>
+      <td><%= meeting.location %></td>
+      <td><%= meeting.hour %></td>
+      <td><%= meeting.minute %></td>
+      <td><%= meeting.duration %></td>
+      <td><%= meeting.email %></td>
+      <td><%= meeting.agenda %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: meeting_path(@conn, :show, meeting), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: meeting_path(@conn, :edit, meeting), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: meeting_path(@conn, :delete, meeting), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New meeting", to: meeting_path(@conn, :new) %>

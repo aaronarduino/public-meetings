@@ -1,0 +1,45 @@
+<div class="jumbotron">
+  <h2><%= gettext "Welcome to %{name}", name: "Public Meetings" %></h2>
+  <p class="lead">Bare bones Elixir/Phoenix framework for displaying and adding meetings.<br> 
+  It's just a minimum prototype at this point.</p>
+</div>
+
+<div class="row">
+  <ul>
+    <li><h4><a href="/meetings">Meetings</a>: REST for listing and CRUD</li></h4>
+    <li><h4><a href="/meeting-list">Meeting List</a>: generated from JSON file imported from Python scraping</h4></li>
+  </ul>
+</div>
+
+<div class="row marketing">
+  <h3>Phoenix Guides</h3>
+  <div class="col-lg-6">
+    <h4>Resources</h4>
+    <ul>
+      <li>
+        <a href="http://phoenixframework.org/docs/overview">Guides</a>
+      </li>
+      <li>
+        <a href="https://hexdocs.pm/phoenix">Docs</a>
+      </li>
+      <li>
+        <a href="https://github.com/phoenixframework/phoenix">Source</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-lg-6">
+    <h4>Help</h4>
+    <ul>
+      <li>
+        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
+      </li>
+      <li>
+        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
+      </li>
+      <li>
+        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<h2><%= length(@meetings) %> public city meetings</h2>
+
+<ol>
+  <%= for meeting <- @meetings do %>
+    <li><a href="meeting-list/<%= meeting["id"] %>">
+      <%= meeting["date"] %>:  <%= meeting["title"] %></a>
+    </li>
+  <% end %>
+</ol>

@@ -1,0 +1,19 @@
+<h2><%= @meeting["title"] %></h2>
+
+<strong>id:</strong> <%= @meeting["id"] %><br>
+<strong>type:</strong> <%= @meeting["type"] %><br>
+
+<%= if @meeting["subtype"] != nil do %>
+   <strong>subtype:</strong> <%= @meeting["subtype"] %><br>
+<% end %>
+
+<strong>date &amp; time:</strong> <%= @meeting["date"] %><br>
+<strong>duration:</strong> <%= @meeting["duration"] %> minutes<br>
+<strong>location:</strong> <a href="https://www.google.com/maps?q=<%= @meeting["location"] %>" target="_blank"><%= @meeting["location"] %></a><br>
+<strong>description:</strong> <%= @meeting["description"] %><br>
+<strong>agenda:</strong> 
+<a href="<%= @meeting["agenda"] %>" target="_blank"><%= @meeting["agenda"] %></a><br>
+<strong>email:</strong> <%= @meeting["email"] %>
+
+<h3>Dump meeting</h3>
+<pre><%= inspect(@meeting, pretty: true) %></pre>
