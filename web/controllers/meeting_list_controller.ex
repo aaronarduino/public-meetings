@@ -2,7 +2,7 @@ defmodule Meetings.MeetingListController do
   use Meetings.Web, :controller
 
   @data (
-    Application.app_dir(:meetings, "priv/data/Meetings_2017.json")
+    Application.app_dir(:meetings, "priv/data/meetings_2017.json")
     |> File.read!
     |> Poison.decode!
   )
