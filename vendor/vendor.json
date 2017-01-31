@@ -3,6 +3,18 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "UGBgSfNO89WTCuuE4z90wVmiz60=",
+			"path": "github.com/dmlyons/goContextIO",
+			"revision": "dc9ea0f25da0f644cbf0bdb98fa2c11834e52a52",
+			"revisionTime": "2015-07-17T22:22:52Z"
+		},
+		{
+			"checksumSHA1": "CuxrDO/o0+6wdJQAAUHsXPxNjKA=",
+			"path": "github.com/garyburd/go-oauth/oauth",
+			"revision": "18d3217f4d38f106335b3a2b2a08ce1c9299d009",
+			"revisionTime": "2016-11-12T15:19:58Z"
+		},
+		{
 			"checksumSHA1": "iIUYZyoanCQQTUaWsu8b+iOSPt4=",
 			"path": "github.com/gorilla/context",
 			"revision": "1ea25387ff6f684839d82767c1733ff4d4d15d0a",
