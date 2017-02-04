@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"reflect"
 
 	"github.com/aaronarduino/public-meetings/email"
@@ -13,8 +14,6 @@ import (
 
 	"github.com/gorilla/mux"
 )
-
-const port = ":8080"
 
 type siteData struct {
 	Subs          subcriptions
@@ -36,6 +35,7 @@ func init() {
 
 func main() {
 	log.Println("Starting...")
+	port := ":" + os.Getenv("PORT")
 
 	acc := email.NewAccount()
 	msgs, err := acc.GetInbox()
