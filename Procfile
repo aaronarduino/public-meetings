@@ -1,1 +1,1 @@
-web: public-meetings
+web: ./public-meetings
