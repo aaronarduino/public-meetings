@@ -1,15 +1,18 @@
 package main
 
-type subcriptions struct {
-	subs []string // is in stuct for now - should be in db
+type dataSource struct {
+	Email       string
+	ScraperType string
 }
 
-func (s *subcriptions) add(address string) {
-	s.subs = append(s.subs, address)
+type subcriptions []dataSource
+
+func (s *subcriptions) add(address, stype string) {
+	*s = append(*s, dataSource{Email: address, ScraperType: stype})
 }
 
-func (s *subcriptions) remove(i int) {
-	s.subs = append(s.subs[:i], s.subs[i+1:]...)
+func (s subcriptions) remove(i int) {
+	s = append(s[:i], s[i+1:]...)
 }
 
 // syncWebhooks should create or delete webhooks

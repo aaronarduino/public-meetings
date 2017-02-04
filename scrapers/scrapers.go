@@ -29,10 +29,11 @@ type SubdivsionMeeting struct {
 func (s *SubdivsionMeeting) Scrape() error {
 	// TODO
 	f := bytes.NewReader(s.data)
-	_, err := pdf.NewReader(f, f.Len())
+	_, err := pdf.NewReader(f, int64(f.Len()))
 	if err != nil {
 		return err
 	}
+	return nil
 }
 
 func (s *SubdivsionMeeting) ToDB() {

@@ -2,7 +2,6 @@ package email
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -59,7 +58,6 @@ func (a *Account) GetInbox() (Messages, error) {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
 
 	var msgs Messages
 	if err := json.Unmarshal(body, &msgs); err == io.EOF {

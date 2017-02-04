@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Subcription</title>
+</head>
+<body>
+
+<form action="/subcriptions/add" method="POST">
+<input type="text" name="semail">
+
+<select name="stype">
+{{range .SrcapersTypes}} {{.}}<option value="{{.}}">{{.}}</option> {{end}}
+</select>
+
+<input type="submit" value="Add Subcription">
+</form>
+<br>
+<br>
+<a href="/">Home</a> - <a href="/subcriptions">Back to subcriptions</a>
+
+</body>
+</html>
