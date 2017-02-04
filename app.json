@@ -1,0 +1,7 @@
+{
+  "name": "Proto Email Scraper",
+  "description": "Scrapes emails for events",
+  "keywords": ["go"],
+  "image": "heroku/go:1.7",
+  "mount_dir": "src/github.com/aaronarduino/public-meetings"
+}
