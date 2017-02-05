@@ -1,3 +1,5 @@
+// This package is mostly just test stuff right now.
+// No real usefull yet.
 package email
 
 import (
