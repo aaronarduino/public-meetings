@@ -26,8 +26,6 @@ func (s *subcriptions) remove(i int) error {
 	cmp := tmp
 	tmp = append(tmp[:i], tmp[i+1:]...)
 	if reflect.DeepEqual(cmp, tmp) {
-		log.Println(cmp)
-		log.Println(tmp)
 		return errors.New("Subscription was not removed.")
 	}
 	*s = tmp
@@ -40,4 +38,42 @@ func (s *subcriptions) remove(i int) error {
 // struct(when farther along this should be in db)
 func (s *subcriptions) syncWebhooks() {
 	// TODO
+	log.Println("Syncing webhooks...")
+	wh, err := account.GetWebhooks()
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Check if webhooks need to be added
+	for _, sub := range *s {
+		exists := false
+		for _, webhook := range wh {
+			if sub.Email == webhook.FilterFrom {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			log.Println("Needs to be added.")
+			continue
+		}
+		log.Println("Already exists.")
+	}
+
+	// Remove uneeded webhooks
+	for _, webhook := range wh {
+		exists := false
+		for _, sub := range *s {
+			if sub.Email == webhook.FilterFrom {
+				exists = true
+				break
+			}
+		}
+		if exists {
+			continue
+		}
+		log.Println("Needs to be deleted.")
+	}
+
+	log.Println("Done syncing webhooks...")
 }

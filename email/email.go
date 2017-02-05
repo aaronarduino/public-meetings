@@ -17,6 +17,15 @@ type Account struct {
 	client *contextio.ContextIO
 }
 
+type Webhooks []struct {
+	CallbackURL     string `json:"callback_url"`
+	FailureNotifURL string `json:"failure_notif_url"`
+	Active          bool   `json:"active"`
+	FilterFrom      string `json:"filter_from"`
+	WebhookID       string `json:"webhook_id"`
+	ResourceURL     string `json:"resource_url"`
+}
+
 type Messages []struct {
 	Date      int      `json:"date"`
 	Folders   []string `json:"folders"`
@@ -69,4 +78,24 @@ func (a *Account) GetInbox() (Messages, error) {
 		return Messages{}, err
 	}
 	return msgs, nil
+}
+
+func (a *Account) GetWebhooks() (Webhooks, error) {
+	reqbody := ""
+	resp, err := a.client.Do("GET", "2.0/accounts/588d7648e0637a16fa6e8067/webhooks", url.Values{}, &reqbody)
+	if err != nil {
+		log.Println(err)
+		return Webhooks{}, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var webhooks Webhooks
+	if err := json.Unmarshal(body, &webhooks); err == io.EOF {
+		return webhooks, nil
+	} else if err != nil {
+		log.Println(err)
+		return Webhooks{}, err
+	}
+	return webhooks, nil
 }

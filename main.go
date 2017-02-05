@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -27,6 +28,7 @@ var (
 	subscribers  subcriptions
 	scraperTypes []string
 	sc           *scrapers.Scrapers
+	account      *email.Account
 )
 
 func init() {
@@ -44,8 +46,8 @@ func main() {
 	port := ":" + os.Getenv("PORT")
 
 	// These lines are temp for testing the email package
-	acc := email.NewAccount()
-	msgs, err := acc.GetInbox()
+	account = email.NewAccount()
+	msgs, err := account.GetInbox()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -57,6 +59,9 @@ func main() {
 	router.HandleFunc("/subcriptions", viewSubs).Methods("GET")
 	router.HandleFunc("/subcriptions/add", addSub).Methods("GET", "POST")
 	router.HandleFunc("/subcriptions/del/{subitem}", delSub).Methods("DELETE")
+	router.HandleFunc("/emailcallback", emailcallback).Methods("POST")
+	router.HandleFunc("/failurecallback", emailcallback).Methods("POST")
+
 	router.PathPrefix("/static").Handler(
 		http.StripPrefix("/static", http.FileServer(http.Dir("static"))),
 	)
@@ -93,6 +98,7 @@ func index(w http.ResponseWriter, req *http.Request) {
 func addSub(w http.ResponseWriter, req *http.Request) {
 	if req.Method == http.MethodPost {
 		subscribers.add(req.FormValue("semail"), req.FormValue("stype"))
+		go subscribers.syncWebhooks()
 		http.Redirect(w, req, "/subcriptions", 301)
 		return
 	}
@@ -108,14 +114,25 @@ func delSub(w http.ResponseWriter, req *http.Request) {
 		}
 		err = subscribers.remove(subitem)
 		if err != nil {
-			w.WriteHeader(http.StatusOK)
+			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		go subscribers.syncWebhooks()
+		w.WriteHeader(http.StatusOK)
+		return
 	}
-	w.WriteHeader(http.StatusNotAcceptable)
+	w.WriteHeader(http.StatusInternalServerError)
 }
 
 // viewSubs lists current subcriptions.
 func viewSubs(w http.ResponseWriter, req *http.Request) {
 	showPage("subcriptions.html", siteData{Subs: subscribers}, w, req)
+}
+
+func emailcallback(w http.ResponseWriter, req *http.Request) {
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(body)
 }
