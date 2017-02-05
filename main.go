@@ -134,5 +134,5 @@ func emailcallback(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(body)
+	log.Println(string(body))
 }
