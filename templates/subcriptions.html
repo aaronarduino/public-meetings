@@ -2,9 +2,21 @@
 <html>
 <head>
 	<title>Subcriptions</title>
+	<script type="text/javascript">
+		function rm(sub) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+			    if (xhr.readyState == XMLHttpRequest.DONE) {
+			        location.reload();
+			    }
+			}
+			xhr.open('DELETE', '/subcriptions/del/'+sub, true);
+			xhr.send(null);
+		}
+	</script>
 </head>
 <body>
-{{range .Subs}} {{.Email}} - {{.ScraperType}}<br> {{end}}
+{{range $index, $results := .Subs}} {{.Email}} - {{.ScraperType}} - <a href="#" onclick="rm('{{$index}}')">Remove</a><br> {{end}}
 <br>
 <br>
 <a href="/">Home</a> - <a href="/subcriptions/add">Add Subcription</a>

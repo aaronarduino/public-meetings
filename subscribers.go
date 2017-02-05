@@ -1,5 +1,11 @@
 package main
 
+import (
+	"errors"
+	"log"
+	"reflect"
+)
+
 // dataSource describes the info about a subcription
 type dataSource struct {
 	Email       string
@@ -15,8 +21,17 @@ func (s *subcriptions) add(address, stype string) {
 }
 
 // remove subcription by index(int)
-func (s subcriptions) remove(i int) {
-	s = append(s[:i], s[i+1:]...)
+func (s *subcriptions) remove(i int) error {
+	tmp := *s
+	cmp := tmp
+	tmp = append(tmp[:i], tmp[i+1:]...)
+	if reflect.DeepEqual(cmp, tmp) {
+		log.Println(cmp)
+		log.Println(tmp)
+		return errors.New("Subscription was not removed.")
+	}
+	*s = tmp
+	return nil
 }
 
 // syncWebhooks should create or delete webhooks

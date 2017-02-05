@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/aaronarduino/public-meetings/email"
 	"github.com/aaronarduino/public-meetings/scrapers"
@@ -30,7 +31,7 @@ var (
 
 func init() {
 	// This compiles a string slice of scapers avalible for use.
-	sc = scrapers.NewScrapers()
+	sc = scrapers.InitScrapers()
 	for _, s := range *sc {
 		scraperTypes = append(scraperTypes, s.Name())
 	}
@@ -55,6 +56,7 @@ func main() {
 	router.HandleFunc("/", index).Methods("GET")
 	router.HandleFunc("/subcriptions", viewSubs).Methods("GET")
 	router.HandleFunc("/subcriptions/add", addSub).Methods("GET", "POST")
+	router.HandleFunc("/subcriptions/del/{subitem}", delSub).Methods("DELETE")
 	router.PathPrefix("/static").Handler(
 		http.StripPrefix("/static", http.FileServer(http.Dir("static"))),
 	)
@@ -95,6 +97,22 @@ func addSub(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	showPage("add_subcription.html", siteData{ScrapersTypes: scraperTypes}, w, req)
+}
+
+func delSub(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	if req.Method == http.MethodDelete {
+		subitem, err := strconv.Atoi(vars["subitem"])
+		if err != nil {
+			log.Println(err)
+		}
+		err = subscribers.remove(subitem)
+		if err != nil {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+	}
+	w.WriteHeader(http.StatusNotAcceptable)
 }
 
 // viewSubs lists current subcriptions.
