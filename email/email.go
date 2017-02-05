@@ -26,6 +26,41 @@ type Webhooks []struct {
 	ResourceURL     string `json:"resource_url"`
 }
 
+type WebhookCallback struct {
+	AccountID   string `json:"account_id"`
+	WebhookID   string `json:"webhook_id"`
+	Timestamp   int    `json:"timestamp"`
+	MessageData struct {
+		MessageID      string `json:"message_id"`
+		EmailMessageID string `json:"email_message_id"`
+		Addresses      struct {
+			From struct {
+				Email string `json:"email"`
+				Name  string `json:"name"`
+			} `json:"from"`
+			To []struct {
+				Email string `json:"email"`
+			} `json:"to"`
+		} `json:"addresses"`
+		PersonInfo     interface{}   `json:"person_info"`
+		DateReceived   int           `json:"date_received"`
+		Subject        string        `json:"subject"`
+		Folders        []string      `json:"folders"`
+		DateIndexed    int           `json:"date_indexed"`
+		Date           int           `json:"date"`
+		References     []interface{} `json:"references"`
+		GmailMessageID string        `json:"gmail_message_id"`
+		GmailThreadID  string        `json:"gmail_thread_id"`
+		Files          []interface{} `json:"files"`
+		Sources        []struct {
+			Label       string `json:"label"`
+			ResourceURL string `json:"resource_url"`
+		} `json:"sources"`
+	} `json:"message_data"`
+	Token     string `json:"token"`
+	Signature string `json:"signature"`
+}
+
 type Messages []struct {
 	Date      int      `json:"date"`
 	Folders   []string `json:"folders"`
