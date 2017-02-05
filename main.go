@@ -112,11 +112,7 @@ func delSub(w http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			log.Println(err)
 		}
-		err = subscribers.remove(subitem)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		subscribers.remove(subitem)
 		go subscribers.syncWebhooks()
 		w.WriteHeader(http.StatusOK)
 		return
